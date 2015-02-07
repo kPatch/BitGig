@@ -59,10 +59,17 @@ The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
             -->
         </activity>
 
+        <activity
+            android:name=".ui.CreateGigPost"
+            android:label="@string/title_activity_create_gig_post"
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
 
-        <meta-data
+
+<!--        <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id" />-->
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParseBroadcastReceiver" >
             <intent-filter>

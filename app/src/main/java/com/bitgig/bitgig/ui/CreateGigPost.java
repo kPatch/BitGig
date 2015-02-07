@@ -7,16 +7,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bitgig.bitgig.R;
 
-public class CreateGigPost extends ActionBarActivity {
+public class CreateGigPost extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_gig_post);
+        setContentView(R.layout.activity_create_gig_post_2);
         ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         findViewById(R.id.dollar_amount).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -25,6 +37,12 @@ public class CreateGigPost extends ActionBarActivity {
                 textView.setText("");
             }
         });
+
+        Spinner spinner = (Spinner)    findViewById(R.id.gig_types);
+        ArrayAdapter<CharSequence> gigTypeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.gig_types, android.R.layout.simple_spinner_item);
+        gigTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(gigTypeAdapter);
     }
 
 

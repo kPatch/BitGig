@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.bitgig.bitgig.common.BaseActivity;
 import com.bitgig.bitgig.model.GigPost;
 import com.bitgig.bitgig.ui.CreateGigPost;
-import com.bitgig.bitgig.ui.FacebookLoginFragment;
 import com.bitgig.bitgig.ui.GigPostFragment;
 import com.bitgig.bitgig.ui.adapters.GigPostListAdapter;
 import com.bitgig.bitgig.ui.adapters.GigPostRecAdapter;
@@ -38,8 +37,6 @@ import java.util.Set;
 public class MainActivity extends BaseActivity
         implements GigPostFragment.Listener {
 
-
-    //mMyGigPostFragment
     // How is this Activity being used?
     private static final int MODE_EXPLORE = 0; // as top-level "Explore" screen
     private static final int MODE_TIME_FIT = 1; // showing sessions that fit in a time interval
@@ -72,13 +69,12 @@ public class MainActivity extends BaseActivity
 
     // View pager and adapter (for narrow mode)
     ViewPager mViewPager = null;
-    MainViewPagerAdapter mViewPagerAdapter = null;
+    OurViewPagerAdapter mViewPagerAdapter = null;
     SlidingTabLayout mSlidingTabLayout = null;
     ScrollView mScrollViewWide;
 
-    FacebookLoginFragment facebook;
     private Context context;
-    BezelImageView facebookImage;
+    com.bitgig.bitgig.ui.widget.BezelImageView facebookImage;
     ProfilePictureView profile_image;
     public SetProfilePicture set;
     FloatingActionButton fab;
@@ -86,7 +82,8 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.feed_layout);
+        setContentView(R.layout.activity_my_schedule);
 
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -95,10 +92,11 @@ public class MainActivity extends BaseActivity
 
         //TODO: Fix the number of adpater being used
         for(int i = 0; i< 2; i++){
+            //mGigPostListAdapters[i] = new GigPostListAdapter(this, createList(10)); //TODO USED THIS FOR REGULAR LISTS
             mGigPostRecAdapters[i] = new GigPostRecAdapter(createList(10));
         }
 
-        mViewPagerAdapter = new MainViewPagerAdapter(getFragmentManager());
+        mViewPagerAdapter = new OurViewPagerAdapter(getFragmentManager());
         mViewPager.setAdapter(mViewPagerAdapter);
 
         TextView firstDayHeaderView = (TextView) findViewById(R.id.day_label_first_day);
@@ -110,6 +108,7 @@ public class MainActivity extends BaseActivity
         if (secondDayHeaderView != null) {
             secondDayHeaderView.setText("WORLD");
         }
+
 
         //TODO: Look At MyScheduleActivity; we need to populate an array of Views
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
@@ -126,46 +125,32 @@ public class MainActivity extends BaseActivity
 
         mButterBar = findViewById(R.id.butter_bar);
 
-        // Check is the ViewPager was attached properly
-        if(mSlidingTabLayout != null) {
+        if (mSlidingTabLayout != null) {
             mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                public void onPageScrolled(int position, float positionOffset,
+                                           int positionOffsetPixels) {
 
                 }
 
                 @Override
                 public void onPageSelected(int position) {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         mSlidingTabLayout.announceForAccessibility(
                                 getString(R.string.my_feed_page_desc_a11y,
-                                        getDayName(position))
-                        );
+                                        getDayName(position)));
                     }
                 }
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-                    enableDisableSwipeRefresh(true);
+                    //TODO: Set This As False to STOP SwipeRefresh
+                    //enableDisableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
+                    enableDisableSwipeRefresh(false);
                 }
             });
         }
-
         overridePendingTransition(0, 0);
-
-        // It is supposed to set Facebook Login Box in the Sliding Drawer Layout
-/*        if (savedInstanceState == null) {
-            // Add the fragment on initial activity setup
-            facebook = new FacebookLoginFragment();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.login_container, facebook)
-                    .commit();
-        } else {
-            // Or set the fragment from restored state info
-            facebook = (FacebookLoginFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.login_container);
-        }*/
 
         context = this;
         profile_image = (ProfilePictureView) findViewById(R.id.profile_image);
@@ -173,7 +158,8 @@ public class MainActivity extends BaseActivity
         FacebookManager.getInstance().setContext(this);
         /**
          Create dummy fragments**/
-/*        fab = (FloatingActionButton)findViewById(R.id.new_gig_post);
+
+        fab = (FloatingActionButton)findViewById(R.id.new_gig_post);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,15 +168,118 @@ public class MainActivity extends BaseActivity
                 startActivity(intent);
                 finish();
             }
-        });*/
+        });
     }
+
+/*
+    @Override
+    public boolean canSwipeRefreshChildScrollUp() {
+        if (mWideMode) {
+            return ViewCompat.canScrollVertically(mScrollViewWide, -1);
+        }
+
+        for (GigPostFragment fragment : myGigPostListFragments) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                if (!fragment.getUserVisibleHint()) {
+                    continue;
+                }
+            }
+            //TODO: Fix this to work with RecyclerView
+            //return ViewCompat.canScrollVertically(fragment.getListView(), -1);
+        }
+
+        return false;
+    }*/
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if (mViewPager != null) {
+            /*long now = UIUtils.getCurrentTime(this);
+            for (int i = 0; i < Config.CONFERENCE_DAYS.length; i++) {
+                if (now >= Config.CONFERENCE_DAYS[i][0] && now <= Config.CONFERENCE_DAYS[i][1]) {
+                    mViewPager.setCurrentItem(i);
+                    setTimerToUpdateUI(i);
+                    break;
+                }
+            }*/
+            for(int i = 0; i < 2; i++){
+
+            }
+        }
+        /*
+        setProgressBarTopWhenActionBarShown((int)
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2,
+                        getResources().getDisplayMetrics()));*/
+    }
+
+    //TODO: FIX THIS LOGIC WHEN USER SELECTS A GIG
+    @Override
+    protected int getSelfNavDrawerItem() {
+        // we only have a nav drawer if we are in top-level Explore mode.
+        // return mMode == MODE_EXPLORE ? NAVDRAWER_ITEM_EXPLORE : NAVDRAWER_ITEM_INVALID;
+        return NAVDRAWER_ITEM_WALLET;
+    }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu);
+
+/*        getMenuInflater().inflate(R.menu.browse_sessions, menu);
+        // remove actions when in time interval mode:
+        if (mMode != MODE_EXPLORE) {
+            menu.removeItem(R.id.menu_search);
+            menu.removeItem(R.id.menu_refresh);
+            menu.removeItem(R.id.menu_wifi);
+            menu.removeItem(R.id.menu_debug);
+            menu.removeItem(R.id.menu_about);
+        } else {
+            ///////configureStandardMenuItems(menu);
+        }*/
         return true;
     }
+    /*
+    @Override
+    public void onNavigationDrawerItemSelected(int position) {
+        // update the main content by replacing fragments
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .commit();
+    }
+    */
+    /*
+    public void onSectionAttached(int number) {
+        switch (number) {
+            case 1:
+                mTitle = getString(R.string.profile);
+                break;
+            case 2:
+                mTitle = getString(R.string.payments);
+                break;
+            case 3:
+                mTitle = getString(R.string.promotions);
+                break;
+            case 4:
+                mTitle = getString(R.string.share);
+                break;
+            case 5:
+                mTitle = getString(R.string.support);
+                break;
+            case 6:
+                mTitle = getString(R.string.about);
+                break;
+        }
+    }
+*/
+
+/*    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -207,43 +296,27 @@ public class MainActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onFragmentViewCreated(RecyclerView mRecycler) {
-
-    }
-
-    @Override
-    public void onFragmentAttached(GigPostFragment fragment) {
-
-    }
-
-    @Override
-    public void onFragmentDetached(GigPostFragment fragment) {
-
-    }
-
-
-    //TODO: FIX THIS LOGIC WHEN USER SELECTS A GIG
-    @Override
-    protected int getSelfNavDrawerItem() {
-        // we only have a nav drawer if we are in top-level Explore mode.
-        // return mMode == MODE_EXPLORE ? NAVDRAWER_ITEM_EXPLORE : NAVDRAWER_ITEM_INVALID;
-        return NAVDRAWER_ITEM_WALLET;
-    }
-
 
     // TODO:
     private String getDayName(int position) {
+        /*if (position >= 0 && position < Config.CONFERENCE_DAYS.length) {
+            long timestamp = Config.CONFERENCE_DAYS[position][0];
+            return TimeUtils.formatHumanFriendlyShortDate(this, timestamp);
+        } else {
+            return "";
+        }*/
         return "One";
     }
 
-
     // TODO:
     private void setSlidingTabLayoutContentDescriptions() {
+        /*for (int i = 0; i < Config.CONFERENCE_DAYS.length; i++) {
+            mSlidingTabLayout.setContentDescription(i,
+                    getString(R.string.my_schedule_tab_desc_a11y, getDayName(i)));
+        }*/
         mSlidingTabLayout.setContentDescription(0, "THIS THE FEED");
         mSlidingTabLayout.setContentDescription(1, "SECOND FEED");
     }
-
 
     private ArrayList<GigPost> createList(int size) {
         ArrayList<GigPost> ret = new ArrayList<>();
@@ -255,14 +328,50 @@ public class MainActivity extends BaseActivity
         return ret;
     }
 
-    private class MainViewPagerAdapter extends FragmentPagerAdapter {
 
-        public MainViewPagerAdapter(FragmentManager fm) {
+    @Override
+    //public void onFragmentViewCreated(ListFragment fragment) {
+    public void onFragmentViewCreated(RecyclerView mRecycler) {
+        /*fragment.getListView().addHeaderView(
+                getLayoutInflater().inflate(R.layout.reserve_action_bar_space_header_view, null));*/
+        /*int dayIndex = fragment.getArguments().getInt(ARG_CONFERENCE_DAY_INDEX, 0);*/
+        //fragment.setListAdapter(mScheduleAdapters[dayIndex]);
+        //fragment.getListView().setRecyclerListener(mScheduleAdapters[dayIndex]);
+
+        //TODO: FIX according to the VIEW or LISTVIEW we are on, in the ViewPager
+        /*fragment.setListAdapter(mGigPostListAdapters[0]);
+        fragment.getListView().setRecyclerListener(mGigPostListAdapters[0]);*/
+
+        mRecycler.setAdapter(mGigPostRecAdapters[0]);  //TODO: FIx THIS LOOK INTO GigPostFragment,
+        //TODO We should be attaching the adapter her but it doesn't take place, instead I had to hard code em inside the GigPostRecAdapter
+
+    }
+
+    @Override
+    public void onFragmentAttached(GigPostFragment fragment) {
+        myGigPostListFragments.add(fragment);
+    }
+
+    @Override
+    public void onFragmentDetached(GigPostFragment fragment) {
+        myGigPostListFragments.remove(fragment);
+    }
+
+    private class OurViewPagerAdapter extends FragmentPagerAdapter {
+
+        public OurViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
+            /*LOGD(TAG, "Creating fragment #" + position);
+            MyScheduleFragment frag = new MyScheduleFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_CONFERENCE_DAY_INDEX, position);
+            frag.setArguments(args);
+            return frag;*/
+
             GigPostFragment frag = new GigPostFragment();
             return frag;
         }
@@ -270,7 +379,7 @@ public class MainActivity extends BaseActivity
         //TODO:
         @Override
         public int getCount() {
-            /*return Config.TEMPORARY_NUMBER_OF_PAGES.length;*/ //Temporary Number of Pages in Viepager
+            /*return Config.CONFERENCE_DAYS.length;*/
             return 2;
         }
 

@@ -1006,8 +1006,8 @@
     <!-- Toast failure message if the user's wifi couldn't be updated -->
     <string name="wifi_install_error_message">Sorry, unable to update WiFi configuration</string>
     <string name="description_i_o_hunt">I/O Hunt</string>
-    <string name="facebook_app_id">898071663558310</string>
-    <string name="facebook_hash">zcbaziehimwgrztwdlabmysgmjoe</string>
+<!--    <string name="facebook_app_id">898071663558310</string>
+    <string name="facebook_hash">zcbaziehimwgrztwdlabmysgmjoe</string>-->
     <string name="title_activity_create_gig_post">CreateGigPost</string>
     <string name="title_activity_maps">Map</string>
 
