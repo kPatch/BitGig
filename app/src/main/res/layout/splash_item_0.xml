@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:text="b!tmerce"
+            android:text="BitGig!"
             android:textColor="@color/white"
             android:textSize="40sp"
             android:textStyle="bold"

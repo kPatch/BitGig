@@ -25,8 +25,6 @@ import com.bitgig.bitgig.ui.adapters.GigPostListAdapter;
 import com.bitgig.bitgig.ui.adapters.GigPostRecAdapter;
 import com.bitgig.bitgig.ui.widget.BezelImageView;
 import com.bitgig.bitgig.ui.widget.SlidingTabLayout;
-import com.bitgig.bitgig.util.FacebookManager;
-import com.facebook.widget.ProfilePictureView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -75,8 +73,10 @@ public class MainActivity extends BaseActivity
 
     private Context context;
     com.bitgig.bitgig.ui.widget.BezelImageView facebookImage;
-    ProfilePictureView profile_image;
+/*    ProfilePictureView profile_image;*/
+/*
     public SetProfilePicture set;
+*/
     FloatingActionButton fab;
 
     @Override
@@ -153,9 +153,15 @@ public class MainActivity extends BaseActivity
         overridePendingTransition(0, 0);
 
         context = this;
+/*
         profile_image = (ProfilePictureView) findViewById(R.id.profile_image);
+*/
+/*
         set = new SetProfilePicture();
+*/
+/*
         FacebookManager.getInstance().setContext(this);
+*/
         /**
          Create dummy fragments**/
 
@@ -403,7 +409,7 @@ public class MainActivity extends BaseActivity
         }
     }
 
-
+/*
     private class SetProfilePicture implements Callback {
         public void doSomething() {
             class Runs implements Runnable {
@@ -435,5 +441,5 @@ public class MainActivity extends BaseActivity
             }
             new Thread(new Runs()).start();
         }
-    }
+    }*/
 }

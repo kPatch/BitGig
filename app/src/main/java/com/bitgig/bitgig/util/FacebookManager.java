@@ -1,3 +1,4 @@
+/*
 package com.bitgig.bitgig.util;
 
 import android.content.Context;
@@ -34,4 +35,4 @@ public class FacebookManager {
         profilePictureView.setProfileId(id);
         Log.d("set","set");
     }
-}
+}*/

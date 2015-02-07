@@ -107,7 +107,9 @@
                 android:textSize="@dimen/txt_16sp"
                 android:layout_centerInParent="true"
                 android:layout_below="@+id/fb_login"/>
+<!--
             <include android:id="@+id/fb_login" layout="@layout/facebook_login_fragment"/>
+-->
         </RelativeLayout>
 
         <TextView
