@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -98,7 +97,6 @@ public class MainActivity extends BaseActivity
 
         //TODO: Fix the number of adpater being used
         for(int i = 0; i< 2; i++){
-            //mGigPostListAdapters[i] = new GigPostListAdapter(this, createList(10)); //TODO USED THIS FOR REGULAR LISTS
             mGigPostRecAdapters[i] = new GigPostRecAdapter(createList(10));
         }
 
@@ -122,68 +120,7 @@ public class MainActivity extends BaseActivity
         setSlidingTabLayoutContentDescriptions();
 
         Resources res = getResources();
-        mSlidingTabLayout.setSelectedIndicatorColors(res.getColor(R.color.tab_selected_strip));
-        mSlidingTabLayout.setDistributeEvenly(true);
-        mSlidingTabLayout.setViewPager(mViewPager);
-
-        mButterBar = findViewById(R.id.butter_bar);
-
-        if (mSlidingTabLayout != null) {
-            mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset,
-                                           int positionOffsetPixels) {
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        mSlidingTabLayout.announceForAccessibility(
-                                getString(R.string.my_schedule_page_desc_a11y,
-                                        getDayName(position)));
-                    }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-                    //TODO: Set This As False to STOP SwipeRefresh
-                    //enableDisableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
-                    enableDisableSwipeRefresh(false);
-                }
-            });
-        }
         overridePendingTransition(0, 0);
-        if (savedInstanceState == null) {
-            // Add the fragment on initial activity setup
-            facebook = new FacebookLoginFragment();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.login_container, facebook)
-                    .commit();
-        } else {
-            // Or set the fragment from restored state info
-            facebook = (FacebookLoginFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.login_container);
-        }
-
-
-        context = this;
-        profile_image = (ProfilePictureView) findViewById(R.id.profile_image);
-        set = new SetProfilePicture();
-        FacebookManager.getInstance().setContext(this);
-        /**
-         Create dummy fragments**/
-
-        fab = (FloatingActionButton)findViewById(R.id.new_gig_post);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), CreateGigPost.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
 
     @Override
@@ -235,22 +172,12 @@ public class MainActivity extends BaseActivity
 
     // TODO:
     private String getDayName(int position) {
-        /*if (position >= 0 && position < Config.CONFERENCE_DAYS.length) {
-            long timestamp = Config.CONFERENCE_DAYS[position][0];
-            return TimeUtils.formatHumanFriendlyShortDate(this, timestamp);
-        } else {
-            return "";
-        }*/
         return "One";
     }
 
 
     // TODO:
     private void setSlidingTabLayoutContentDescriptions() {
-        /*for (int i = 0; i < Config.CONFERENCE_DAYS.length; i++) {
-            mSlidingTabLayout.setContentDescription(i,
-                    getString(R.string.my_schedule_tab_desc_a11y, getDayName(i)));
-        }*/
         mSlidingTabLayout.setContentDescription(0, "THIS THE FEED");
         mSlidingTabLayout.setContentDescription(1, "SECOND FEED");
     }
@@ -274,13 +201,6 @@ public class MainActivity extends BaseActivity
 
         @Override
         public Fragment getItem(int position) {
-            /*LOGD(TAG, "Creating fragment #" + position);
-            MyScheduleFragment frag = new MyScheduleFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_CONFERENCE_DAY_INDEX, position);
-            frag.setArguments(args);
-            return frag;*/
-
             GigPostFragment frag = new GigPostFragment();
             return frag;
         }
