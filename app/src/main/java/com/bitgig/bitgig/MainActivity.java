@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bitgig.bitgig.common.BaseActivity;
 import com.bitgig.bitgig.model.GigPost;
@@ -130,7 +131,6 @@ public class MainActivity extends BaseActivity
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                                            int positionOffsetPixels) {
-
                 }
 
                 @Override
@@ -146,7 +146,10 @@ public class MainActivity extends BaseActivity
                 public void onPageScrollStateChanged(int state) {
                     //TODO: Set This As False to STOP SwipeRefresh
                     //enableDisableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
-                    enableDisableSwipeRefresh(false);
+                    //Toast.makeText(getApplication(), "onPageScrollStateChanged", Toast.LENGTH_SHORT).show();
+
+                    //TODO
+                    //enableDisableSwipeRefresh(false);
                 }
             });
         }

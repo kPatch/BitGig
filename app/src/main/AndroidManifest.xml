@@ -37,7 +37,7 @@ The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
         android:theme="@style/Theme.IOSched" >
         <activity
             android:name=".ui.WelcomeActivity"
-            android:label="login"
+            android:label="BitGig"
             android:theme="@style/Theme.IOSched.Welcome" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
