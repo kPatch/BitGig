@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="@dimen/post_item_margin"
+            android:layout_marginRight="@dimen/post_item_margin"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/post_item_padding_left_right"
+                android:paddingRight="@dimen/post_item_padding_left_right">
+
+                <ImageView
+                    android:id="@+id/profilePic"
+                    android:layout_width="@dimen/post_item_profile_pic"
+                    android:layout_height="@dimen/post_item_profile_pic"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/person_image_empty" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/post_item_profile_info_padd"
+                    tools:ignore="RtlSymmetry">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_bitcoin_certified" />
+                        <TextView
+                            android:id="@+id/username"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Uwece"
+                            android:textSize="@dimen/post_item_profile_name"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/timestamp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="10 minutes ago"
+                        android:textColor="@color/timestamp"
+                        android:textSize="@dimen/post_item_timestamp" />
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Miami, FL"
+                        android:textColor="@color/timestamp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/post_item_timestamp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/btnRecord"
+                        android:layout_width="@dimen/post_item_profile_pic"
+                        android:layout_height="@dimen/post_item_profile_pic"
+                        android:layout_weight="4"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_bitcoin" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/post_item_profile_info_padd"
+                        tools:ignore="RtlSymmetry">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:scaleType="fitXY"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:text="$" />
+                            <TextView
+                                android:id="@+id/btc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/txt_18sp"
+                                android:text="0.12"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="30dp"
+                            android:scaleType="fitXY"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtStatusMsg"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:paddingBottom="5dp"
+                android:paddingLeft="@dimen/post_item_status_pad_left_right"
+                android:paddingRight="@dimen/post_item_status_pad_left_right"
+                android:paddingTop="@dimen/post_item_status_pad_top"
+                android:text="BRING ME A SODA!!!" />
+        </LinearLayout>
+        <!--<TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:text="NEED SODA ASAP"/>-->
+
+    </LinearLayout>
+    <ListView
+        android:id="@+id/list"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white_smoke"
+        android:divider="@color/transparent"
+        android:dividerHeight="0dp"
+        android:fastScrollEnabled="true"
+        android:paddingBottom="@dimen/pad_10dp"
+        android:paddingTop="@dimen/pad_10dp"
+        tools:listitem="@layout/chat_item_rcv" >
+    </ListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_nay"
+                style="@style/btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nay"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_nay" />
+
+            <Button
+                android:id="@+id/btn_yay"
+                style="@style/btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yay"
+                android:textColor="@color/white"
+                android:layout_marginLeft="@dimen/pad_10dp"
+                android:background="@drawable/btn_yay" />
+        </LinearLayout>
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/compose_view" />
+        </LinearLayout>
+</LinearLayout>
