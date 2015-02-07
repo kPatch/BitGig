@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--android:paddingBottom="@dimen/feed_item_padding_top_bottom"
+            android:paddingTop="@dimen/feed_item_padding_top_bottom" -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="@dimen/post_item_margin"
+            android:layout_marginRight="@dimen/post_item_margin"
+            android:layout_marginTop="@dimen/post_item_margin"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/post_item_padding_left_right"
+                android:paddingRight="@dimen/post_item_padding_left_right">
+
+                <ImageView
+                    android:id="@+id/profilePic"
+                    android:layout_width="@dimen/post_item_profile_pic"
+                    android:layout_height="@dimen/post_item_profile_pic"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/person_image_empty" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/post_item_profile_info_padd"
+                    tools:ignore="RtlSymmetry">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_bitcoin_certified" />
+                        <TextView
+                            android:id="@+id/username"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Anonymous User 1"
+                            android:textSize="@dimen/post_item_profile_name"
+                            android:textStyle="bold" />
+                        </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/timestamp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="10 minutes ago"
+                        android:textColor="@color/timestamp"
+                        android:textSize="@dimen/post_item_timestamp" />
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sweetwater, FL"
+                        android:textColor="@color/timestamp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/post_item_timestamp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/btnRecord"
+                        android:layout_width="@dimen/post_item_profile_pic"
+                        android:layout_height="@dimen/post_item_profile_pic"
+                        android:layout_weight="4"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_bitcoin" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/post_item_profile_info_padd"
+                        tools:ignore="RtlSymmetry">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:scaleType="fitXY"
+                                android:textSize="@dimen/txt_20sp"
+                                android:textStyle="bold"
+                                android:text="$" />
+                            <TextView
+                                android:id="@+id/btc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/txt_18sp"
+                                android:text="0.12"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="30dp"
+                            android:scaleType="fitXY"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtStatusMsg"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:paddingBottom="5dp"
+                android:paddingLeft="@dimen/post_item_status_pad_left_right"
+                android:paddingRight="@dimen/post_item_status_pad_left_right"
+                android:paddingTop="@dimen/post_item_status_pad_top"
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_20sp"
+                android:text="BRING ME A SODA!!!" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/post_bg"
+            android:paddingLeft="@dimen/post_item_status_pad_left_right"
+            android:paddingRight="@dimen/post_item_status_pad_left_right"
+            android:paddingBottom="5dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_bitcoin_eye" />
+                <TextView
+                    android:id="@+id/txtUrl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:linksClickable="true"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="@dimen/post_item_status_pad_left_right"
+                    android:paddingTop="5dp"
+                    android:text="Watch"
+                    android:textColorLink="@color/link"
+                    android:textSize="@dimen/txt_14sp"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingLeft="@dimen/post_item_status_pad_left_right"
+
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_action_chat" />
+                <TextView
+                    android:id="@+id/txtUrl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:linksClickable="true"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="@dimen/post_item_status_pad_left_right"
+                    android:text="Comment"
+                    android:textColorLink="@color/link"
+                    android:textSize="@dimen/txt_14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingLeft="@dimen/post_item_status_pad_left_right"
+                android:paddingRight="@dimen/post_item_status_pad_left_right"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_bitcoin_trolley" />
+                <TextView
+                    android:id="@+id/txtUrl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:linksClickable="true"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="@dimen/post_item_status_pad_left_right"
+                    android:paddingRight="@dimen/post_item_status_pad_left_right"
+                    android:textColorLink="@color/link"
+                    android:textSize="@dimen/txt_14sp"
+                    android:textStyle="bold"
+                    android:text="Take"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

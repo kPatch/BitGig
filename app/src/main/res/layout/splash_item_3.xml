@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cyan"
+    android:layout_centerInParent="true">
+<!--    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_bitcoin"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/center_image" />-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_camera"
+        android:layout_alignTop="@+id/center_image"
+        android:layout_toLeftOf="@+id/center_image"
+        android:layout_toStartOf="@+id/center_image" />
+    <ImageView
+        android:id="@+id/center_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_open_box"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/first_text"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_coffee"
+        android:layout_alignTop="@+id/center_image"
+        android:layout_toRightOf="@+id/center_image"
+        android:layout_toEndOf="@+id/center_image" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:text="Get stuff delivered to you"
+        android:id="@+id/first_text"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="90dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Get stuff done from home, or anywhere"
+        android:id="@+id/textView4"
+        android:textColor="@color/white"
+        android:layout_alignTop="@+id/first_text"
+        android:layout_alignLeft="@+id/first_text"
+        android:layout_alignStart="@+id/first_text"
+        android:layout_marginTop="48dp"
+        android:layout_alignRight="@+id/first_text"
+        android:layout_alignEnd="@+id/first_text" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_splash"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/dots"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_alignTop="@+id/fb_login">
+                <TextView
+                    android:id="@+id/textView0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="."
+                    android:textColor="#000"
+                    android:textSize="100dp" />
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="."
+                    android:textColor="#FFF"
+                    android:textSize="100dp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="."
+                    android:textColor="#FFF"
+                    android:textSize="100dp" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="."
+                    android:textColor="#FFF"
+                    android:textSize="100dp" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="."
+                    android:textColor="#FFF"
+                    android:textSize="100dp" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign up or Be anonymous"
+                android:textSize="@dimen/txt_16sp"
+                android:layout_centerInParent="true"
+                android:layout_below="@+id/fb_login"/>
+            <include android:id="@+id/fb_login" layout="@layout/facebook_login_fragment"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/skip"
+            android:textSize="30sp"
+            android:text="SKIP"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="bottom"/>
+
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/next"
+            android:textSize="30sp"
+            android:src="@drawable/ic_action_forward"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="bottom|right"/>
+
+    </FrameLayout>
+</RelativeLayout>
