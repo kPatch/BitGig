@@ -16,7 +16,9 @@ public class App extends Application {
     @Override public void onCreate() {
         super.onCreate();
         ParseObject.registerSubclass(GigParse.class);
-        Parse.initialize(this, "ohGBSlhgpCtPxv5f0ARrPuG2cfvS2vC2RkEWUSy6", "0Fiy3uB7WEsa7FWMvYvNyrVl7X68OiYD9bnCwm1z"); // Your Application ID and Client Key are defined elsewhere
+        String parseAppId = "ohGBSlhgpCtPxv5f0ARrPuG2cfvS2vC2RkEWUSy6";
+        String clientId = "0Fiy3uB7WEsa7FWMvYvNyrVl7X68OiYD9bnCwm1z";
+        Parse.initialize(this, parseAppId, clientId);
 
         ParseInstallation.getCurrentInstallation().saveInBackground();
 

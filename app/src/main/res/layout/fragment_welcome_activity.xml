@@ -4,111 +4,36 @@
     android:layout_height="match_parent"
     android:id="@+id/splash_layout"
     android:background="@color/theme_primary">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/bFBLogin"
+
+
+        android:text="@string/com_facebook_loginview_log_in_button"
+        android:textColor="@color/com_facebook_loginview_text_color"
+        android:textSize="@dimen/com_facebook_loginview_text_size"
+        android:textStyle="bold"
+
+        android:background="@drawable/com_facebook_button_blue"
+        android:drawableLeft="@drawable/com_facebook_inverse_icon"
+        android:drawablePadding="@dimen/com_facebook_likebutton_compound_drawable_padding"
+        android:paddingLeft="@dimen/com_facebook_loginview_padding_left"
+        android:paddingTop="@dimen/com_facebook_loginview_padding_top"
+        android:paddingRight="@dimen/com_facebook_loginview_padding_right"
+        android:paddingBottom="@dimen/com_facebook_loginview_padding_bottom"
+
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/bottom_splash"
-        android:layout_gravity="center_horizontal|bottom"
-        android:background="@color/white">
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal|bottom" />
 
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/dots"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_alignTop="@+id/fb_login">
-                <TextView
-                    android:id="@+id/textView0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="."
-                    android:textColor="#000"
-                    android:textSize="100dp" />
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="."
-                    android:textColor="#FFF"
-                    android:textSize="100dp" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="."
-                    android:textColor="#FFF"
-                    android:textSize="100dp" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="."
-                    android:textColor="#FFF"
-                    android:textSize="100dp" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="."
-                    android:textColor="#FFF"
-                    android:textSize="100dp" />
-            </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sign up or Be anonymous"
-                android:textSize="@dimen/txt_16sp"
-                android:layout_centerInParent="true"
-                android:layout_below="@+id/fb_login"/>
-<!--
-            <include android:id="@+id/fb_login" layout="@layout/facebook_login_fragment"/>
--->
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/btn_fb_full_2"/>
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/skip"
-            android:textSize="30sp"
-            android:text="SKIP"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="bottom"/>
-
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/next"
-            android:textSize="30sp"
-            android:src="@drawable/ic_action_forward"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="bottom|right"/>
-
-    </FrameLayout>
 </FrameLayout>
