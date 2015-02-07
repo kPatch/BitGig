@@ -51,9 +51,11 @@
                 android:id="@+id/chosen_account_content_view">
 
                 <com.facebook.widget.ProfilePictureView
-                    android:id="@+id/profile_image"
-                    android:layout_width="69dp"
-                    android:layout_height="69dp"
+                    android:id="@+id/userProfilePicture"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
                     />
 <!--                <com.bitgig.bitgig.ui.widget.BezelImageView
                     android:id="@+id/profile_image"
@@ -80,7 +82,7 @@
                     android:id="@+id/profile_email_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/profile_image"
+                    android:layout_alignLeft="@id/userProfilePicture"
                     android:layout_toLeftOf="@id/expand_account_box_indicator"
                     android:layout_alignParentBottom="true"
                     android:paddingBottom="16dp"
@@ -95,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/profile_email_text"
-                    android:layout_alignLeft="@id/profile_image"
+                    android:layout_alignLeft="@id/userProfilePicture"
                     android:layout_toLeftOf="@id/expand_account_box_indicator"
                     android:textSize="@dimen/text_size_large"
                     android:textColor="@color/body_text_1_inverse"

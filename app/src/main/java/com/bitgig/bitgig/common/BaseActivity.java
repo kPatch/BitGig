@@ -31,9 +31,21 @@ import android.widget.TextView;
 
 import com.bitgig.bitgig.MainActivity;
 import com.bitgig.bitgig.R;
+import com.bitgig.bitgig.ui.WelcomeActivity;
 import com.bitgig.bitgig.ui.widget.ScrimInsetsScrollView;
 import com.bitgig.bitgig.ui.widget.SuperSwipeRefreshLayout;
+import com.facebook.FacebookRequestError;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.auth.GoogleAuthUtil;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -50,7 +62,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     private FrameLayout mFrameLayout;
     private Handler mHandler;
 
-    private ImageView mExpandAccountBoxIndicator;
+    private ProfilePictureView userProfilePictureView;
     private boolean mAccountBoxExpanded = false;
 
     // Helper methods for L APIs
@@ -184,8 +196,60 @@ public abstract class BaseActivity extends ActionBarActivity {
         //mLUtils = LUtils.getInstance(this);
         mThemedStatusBarColor = getResources().getColor(R.color.theme_primary_dark);
         mNormalStatusBarColor = mThemedStatusBarColor;
+
+
     }
 
+
+    private void makeMeRequest() {
+        Request request = Request.newMeRequest(ParseFacebookUtils.getSession(),
+                new Request.GraphUserCallback() {
+                    @Override
+                    public void onCompleted(GraphUser user, Response response) {
+                        if (user != null) {
+                            // Create a JSON object to hold the profile info
+                            JSONObject userProfile = new JSONObject();
+                            try {
+                                // Populate the JSON object
+                                userProfile.put("facebookId", user.getId());
+                                userProfile.put("name", user.getName());
+                                if (user.getProperty("gender") != null) {
+                                    userProfile.put("gender", user.getProperty("gender"));
+                                }
+                                if (user.getProperty("email") != null) {
+                                    userProfile.put("email", user.getProperty("email"));
+                                }
+
+                                // Save the user profile info in a user property
+                                ParseUser currentUser = ParseUser.getCurrentUser();
+                                currentUser.put("profile", userProfile);
+                                currentUser.saveInBackground();
+                                userProfilePictureView.setProfileId(userProfile.getString("facebookId"));
+                            } catch (JSONException e) {
+                                Log.d("myAPp", "Error parsing returned user data. " + e);
+                            }
+
+                        } else if (response.getError() != null) {
+                            if ((response.getError().getCategory() == FacebookRequestError.Category.AUTHENTICATION_RETRY) ||
+                                    (response.getError().getCategory() == FacebookRequestError.Category.AUTHENTICATION_REOPEN_SESSION)) {
+                                Log.d("myAPp", "The facebook session was invalidated." + response.getError());
+                                logout();
+                            } else {
+                                Log.d("myAPp",
+                                        "Some other error: " + response.getError());
+                            }
+                        }
+                    }
+                }
+        );
+        request.executeAsync();
+    }
+
+    private void logout(){
+        ParseUser.logOut();
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        startActivity(intent);
+    }
 
     private void trySetupSwipeRefresh() {
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -270,6 +334,16 @@ public abstract class BaseActivity extends ActionBarActivity {
                 getResources().getColor(R.color.theme_primary_dark));
         ScrimInsetsScrollView navDrawer = (ScrimInsetsScrollView)
                 mDrawerLayout.findViewById(R.id.navdrawer);
+
+        userProfilePictureView = (ProfilePictureView) navDrawer.findViewById(R.id.userProfilePicture);
+        Session session = ParseFacebookUtils.getSession();
+        if (session != null && session.isOpened()) {
+            makeMeRequest();
+        }
+
+
+
+
         if (selfItem == NAVDRAWER_ITEM_INVALID) {
             // do not show a nav drawer
             if (navDrawer != null) {
@@ -467,6 +541,9 @@ public abstract class BaseActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         setupNavDrawer();
         //setupAccountBox();
+
+
+
 
         trySetupSwipeRefresh();
         updateSwipeRefreshProgressBarTop();

@@ -251,11 +251,7 @@
     <!-- Menu item that allows user to add a session to their schedule -->
     <string name="description_add_schedule">Add to schedule</string>
 
-    <!--
-    Menu item that allows the user to send feedback about the application to Google. This
-    says 'App Feedback' to clarify that it's feedback about the application, and not about a
-    session.
-    -->
+
     <string name="description_app_feedback">App Feedback</string>
 
     <!-- Menu item that allows the user to send feedback about the application to Google -->

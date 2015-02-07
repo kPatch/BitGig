@@ -24,12 +24,7 @@ public class PrefUtils {
     public static void init(final Context context) {
         // Check what year we're configured for
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        /*int conferenceYear = sp.getInt(PREF_CONFERENCE_YEAR, 0);
-        if (conferenceYear != Config.CONFERENCE_YEAR) {
-            LOGD(TAG, "App not yet set up for " + PREF_CONFERENCE_YEAR + ". Resetting data.");
-            // Application is configured for a different conference year. Reset preferences.
-            sp.edit().clear().putInt(PREF_CONFERENCE_YEAR, Config.CONFERENCE_YEAR).commit();
-        }*/
+
     }
 
 

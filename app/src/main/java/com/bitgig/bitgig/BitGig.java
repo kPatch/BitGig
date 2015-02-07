@@ -11,8 +11,10 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
-public class App extends Application {
-
+/**
+ * Created by anish_khattar25 on 2/7/15.
+ */
+public class BitGig extends Application{
     @Override public void onCreate() {
         super.onCreate();
         ParseObject.registerSubclass(GigParse.class);
