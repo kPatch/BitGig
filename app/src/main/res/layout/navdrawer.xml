@@ -132,13 +132,14 @@
 
 
         </FrameLayout>
-        <FrameLayout
+        <!-- For Facebook Login Box - No Longer Required -->
+<!--        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/login_container"
             android:layout_marginTop="-20dp"
 
-            ></FrameLayout>
+            ></FrameLayout>-->
 
     </LinearLayout>
 

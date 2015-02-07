@@ -30,8 +30,6 @@ import com.bitgig.bitgig.util.FacebookManager;
 import com.facebook.widget.ProfilePictureView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
-import com.facebook.widget.ProfilePictureView;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -121,6 +119,70 @@ public class MainActivity extends BaseActivity
 
         Resources res = getResources();
         overridePendingTransition(0, 0);
+
+        mSlidingTabLayout.setSelectedIndicatorColors(res.getColor(R.color.tab_selected_strip));
+        mSlidingTabLayout.setDistributeEvenly(true);
+        mSlidingTabLayout.setViewPager(mViewPager);
+
+        mButterBar = findViewById(R.id.butter_bar);
+
+        // Check is the ViewPager was attached properly
+        if(mSlidingTabLayout != null) {
+            mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        mSlidingTabLayout.announceForAccessibility(
+                                getString(R.string.my_feed_page_desc_a11y,
+                                        getDayName(position))
+                        );
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                    enableDisableSwipeRefresh(true);
+                }
+            });
+        }
+
+        overridePendingTransition(0, 0);
+
+        // It is supposed to set Facebook Login Box in the Sliding Drawer Layout
+/*        if (savedInstanceState == null) {
+            // Add the fragment on initial activity setup
+            facebook = new FacebookLoginFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.login_container, facebook)
+                    .commit();
+        } else {
+            // Or set the fragment from restored state info
+            facebook = (FacebookLoginFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.login_container);
+        }*/
+
+        context = this;
+        profile_image = (ProfilePictureView) findViewById(R.id.profile_image);
+        set = new SetProfilePicture();
+        FacebookManager.getInstance().setContext(this);
+        /**
+         Create dummy fragments**/
+/*        fab = (FloatingActionButton)findViewById(R.id.new_gig_post);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), CreateGigPost.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+        });*/
     }
 
     @Override
@@ -208,7 +270,7 @@ public class MainActivity extends BaseActivity
         //TODO:
         @Override
         public int getCount() {
-            /*return Config.CONFERENCE_DAYS.length;*/
+            /*return Config.TEMPORARY_NUMBER_OF_PAGES.length;*/ //Temporary Number of Pages in Viepager
             return 2;
         }
 

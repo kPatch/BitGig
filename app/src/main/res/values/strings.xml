@@ -489,10 +489,10 @@
     <string name="more_sessions">More Sessions</string>
 
     <!-- Accessibility description for tab that shows the attendee's schedule for a given day. -->
-    <string name="my_schedule_tab_desc_a11y">Tap to show your schedule for <xliff:g id="day">%1$s</xliff:g>.</string>
+    <string name="my_feed_tab_desc_a11y">Tap to show your schedule for <xliff:g id="day">%1$s</xliff:g>.</string>
 
     <!-- Accessibility announcement to alert user that they are now viewing their schedule of a given day. -->
-    <string name="my_schedule_page_desc_a11y">Now showing your schedule for <xliff:g id="day">%1$s</xliff:g></string>
+    <string name="my_feed_page_desc_a11y">Now showing your schedule for <xliff:g id="day">%1$s</xliff:g></string>
 
     <!-- Menu item to open the Experts screen [CHAR_LIMIT=20] -->
     <string name="navdrawer_item_experts_directory">Experts</string>
