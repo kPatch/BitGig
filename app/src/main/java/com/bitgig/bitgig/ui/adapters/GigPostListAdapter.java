@@ -1,3 +1,4 @@
+/*
 package com.bitgig.bitgig.ui.adapters;
 
 import android.content.Context;
@@ -15,9 +16,11 @@ import com.bitgig.bitgig.model.GigPost;
 
 import java.util.ArrayList;
 
+*/
 /**
  * Created by irvin on 1/10/2015.
- */
+ *//*
+
 public class GigPostListAdapter implements ListAdapter, AbsListView.RecyclerListener {
 
     private final Context mContext;
@@ -152,3 +155,4 @@ public class GigPostListAdapter implements ListAdapter, AbsListView.RecyclerList
 
     }
 }
+*/

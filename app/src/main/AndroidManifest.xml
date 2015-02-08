@@ -13,9 +13,14 @@
     <permission
         android:name="com.bitgig.bitgig.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
+    <permission
+        android:name="com.bitgig.bitgig.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" >
+    </permission>
     <uses-permission android:name="com.bitgig.bitgig.permission.C2D_MESSAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="com.bitgig.bitgig.permission.MAPS_RECEIVE" />
 
     <!--
 The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -37,7 +42,7 @@ The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
         android:theme="@style/Theme.IOSched" >
         <activity
             android:name=".ui.WelcomeActivity"
-            android:label="login"
+            android:label="BitGig"
             android:theme="@style/Theme.IOSched.Welcome" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

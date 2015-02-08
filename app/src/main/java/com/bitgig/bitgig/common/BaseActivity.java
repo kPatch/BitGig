@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bitgig.bitgig.MainActivity;
 import com.bitgig.bitgig.R;
@@ -236,6 +237,7 @@ public abstract class BaseActivity extends ActionBarActivity {
                 public void onRefresh() {
                     //TODO: Request MORE DATA!
                     //requestDataRefresh();
+                    Toast.makeText(getApplication(), "Request MORE DATA!", Toast.LENGTH_SHORT);
                 }
             });
 
@@ -245,7 +247,7 @@ public abstract class BaseActivity extends ActionBarActivity {
                 sswrl.setCanChildScrollUpCallback(new SuperSwipeRefreshLayout.CanChildScrollUpCallback() {
                     @Override
                     public boolean canSwipeRefreshChildScrollUp() {
-                        return false;
+                        return true;
                     }
                 });
             }

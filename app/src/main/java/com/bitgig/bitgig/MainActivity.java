@@ -16,12 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bitgig.bitgig.common.BaseActivity;
 import com.bitgig.bitgig.model.GigPost;
 import com.bitgig.bitgig.ui.CreateGigPost;
 import com.bitgig.bitgig.ui.GigPostFragment;
-import com.bitgig.bitgig.ui.adapters.GigPostListAdapter;
 import com.bitgig.bitgig.ui.adapters.GigPostRecAdapter;
 import com.bitgig.bitgig.ui.widget.BezelImageView;
 import com.bitgig.bitgig.ui.widget.SlidingTabLayout;
@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity
     // The adapters that serves as the source of data for the UI, indicating the available
     // items. We have one adapter per feed. When we push new data into these
     // adapters, the corresponding UIs update automatically.
-    private GigPostListAdapter[] mGigPostListAdapters = new GigPostListAdapter[2];
+//    private GigPostListAdapter[] mGigPostListAdapters = new GigPostListAdapter[2];
 
     private GigPostRecAdapter[] mGigPostRecAdapters = new GigPostRecAdapter[2];
 
@@ -124,7 +124,6 @@ public class MainActivity extends BaseActivity
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                                            int positionOffsetPixels) {
-
                 }
 
                 @Override
@@ -140,7 +139,10 @@ public class MainActivity extends BaseActivity
                 public void onPageScrollStateChanged(int state) {
                     //TODO: Set This As False to STOP SwipeRefresh
                     //enableDisableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
-                    enableDisableSwipeRefresh(false);
+                    //Toast.makeText(getApplication(), "onPageScrollStateChanged", Toast.LENGTH_SHORT).show();
+
+                    //TODO
+                    //enableDisableSwipeRefresh(false);
                 }
             });
         }
