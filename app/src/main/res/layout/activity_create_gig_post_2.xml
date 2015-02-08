@@ -104,7 +104,7 @@
         <Button
             android:id="@+id/btn_send_request"
             style="@style/btn"
-            android:layout_width="384dp"
+            android:layout_width="446dp"
             android:layout_height="wrap_content"
             android:text="SEND"
             android:textColor="@color/white"
