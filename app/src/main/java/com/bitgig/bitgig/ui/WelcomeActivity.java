@@ -17,10 +17,15 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bitgig.bitgig.MainActivity;
 import com.bitgig.bitgig.R;
 import com.bitgig.bitgig.util.PrefUtils;
+import com.coinbase.api.Coinbase;
+import com.coinbase.api.CoinbaseBuilder;
+import com.coinbase.api.entity.OAuthTokensResponse;
+import com.coinbase.api.exception.CoinbaseException;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -29,6 +34,10 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.coinbase.android.sdk.OAuth;
+
+import roboguice.util.RoboAsyncTask;
 
 /**
  * Created by irvin on 2/7/2015.
@@ -67,15 +76,22 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(WelcomeActivity.this,MainActivity.class);
+                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
 
-        fbLoginButton = (Button)findViewById(R.id.bFBLogin);
+        fbLoginButton = (Button) findViewById(R.id.bFBLogin);
         fbLoginButton.setOnClickListener(this);
 
+
+        try {
+            OAuth.beginAuthorization(this, CLIENT_ID, "user", REDIRECT_URI, null);
+        } catch (CoinbaseException ex) {
+            //mTextView.setText("There was an error redirecting to Coinbase: " + ex.getMessage());
+            Toast.makeText(this, "There was an error redirecting to Coinbase: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -102,19 +118,19 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initDot(){
-        dot0=(TextView) this.findViewById(R.id.textView0);
-        dot1=(TextView) this.findViewById(R.id.textView1);
-        dot2=(TextView) this.findViewById(R.id.textView2);
-        dot3=(TextView) this.findViewById(R.id.textView3);
-        dot4=(TextView) this.findViewById(R.id.textView4);
+    private void initDot() {
+        dot0 = (TextView) this.findViewById(R.id.textView0);
+        dot1 = (TextView) this.findViewById(R.id.textView1);
+        dot2 = (TextView) this.findViewById(R.id.textView2);
+        dot3 = (TextView) this.findViewById(R.id.textView3);
+        dot4 = (TextView) this.findViewById(R.id.textView4);
     }
 
-    private void initViewPager(){
+    private void initViewPager() {
         splashPager = (ViewPager) this.findViewById(R.id.viewPager);
-        list=new ArrayList<View>();
+        list = new ArrayList<View>();
 
-        LayoutInflater inflater=getLayoutInflater();
+        LayoutInflater inflater = getLayoutInflater();
 
         list.add(inflater.inflate(R.layout.splash_item_0, null));
         list.add(inflater.inflate(R.layout.splash_item_1, null));
@@ -130,13 +146,13 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bFBLogin:
                 loginWithFB();
         }
     }
 
-    private void loginWithFB(){
+    private void loginWithFB() {
         progressDialog = ProgressDialog.show(WelcomeActivity.this, "", "Logging in...", true);
         List<String> permissions = Arrays.asList("public_profile", "email");
 
@@ -157,8 +173,8 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
         });
     }
 
-    private void showMainPage(){
-        Intent intent = new Intent(this,MainActivity.class);
+    private void showMainPage() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -262,17 +278,101 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
 
     private static class FadePageTransformer implements ViewPager.PageTransformer {
         // Jittery translation
+/*
         public void transformPage(View view, float position) {
             view.setAlpha(1 - Math.abs(position));
             if (position < 0) {
-                view.setScrollX((int)((float)(view.getWidth()) * position));
+                view.setScrollX((int) ((float) (view.getWidth()) * position));
             } else if (position > 0) {
                 view.setScrollX(-(int) ((float) (view.getWidth()) * -position));
             } else {
                 view.setScrollX(0);
             }
         }
+*/
 
 
+        // AWESOME Translation
+        public void transformPage(View view, float position) {
+            view.setTranslationX(view.getWidth() * -position);
+            if(position <= -1.0F || position >= 1.0F) {
+                view.setAlpha(0.0F);
+            }
+            else if (position < 0.0F) {
+                view.setAlpha(1.0F - Math.abs(position));
+                view.setScrollX(-(int) ((float) (view.getWidth()) * position));
+            } else if (position > 0.0F) {
+                view.setAlpha(1.0F - Math.abs(position));
+                view.setScrollX((int) ((float) (view.getWidth()) * -position));
+            } else {
+                view.setAlpha(1.0F);
+                view.setScrollX(0);
+            }
+        }
+
+
+    }
+
+    public class DisplayEmailTask extends RoboAsyncTask<String> {
+        private OAuthTokensResponse mTokens;
+
+        public DisplayEmailTask(OAuthTokensResponse tokens) {
+            super(WelcomeActivity.this);
+            mTokens = tokens;
+        }
+
+        public String call() throws Exception {
+            Coinbase coinbase = new CoinbaseBuilder().withAccessToken(mTokens.getAccessToken()).build();
+            return coinbase.getUser().getEmail();
+        }
+
+        @Override
+        public void onException(Exception ex) {
+            //mTextView.setText("There was an error fetching the user's email address: " + ex.getMessage());
+            Toast.makeText(getApplication(), "There was an error fetching the user's email address: "
+                    + ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onSuccess(String email) {
+            //mTextView.setText("Success! The user's email address is: " + email);
+            Toast.makeText(getApplication(), "Success! The user's email address is: " + email, Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    public class CompleteAuthorizationTask extends RoboAsyncTask<OAuthTokensResponse> {
+        private Intent mIntent;
+
+        public CompleteAuthorizationTask(Intent intent) {
+            super(WelcomeActivity.this);
+            mIntent = intent;
+        }
+
+        @Override
+        public OAuthTokensResponse call() throws Exception {
+            return OAuth.completeAuthorization(WelcomeActivity.this, CLIENT_ID, CLIENT_SECRET, mIntent.getData());
+        }
+
+        @Override
+        public void onSuccess(OAuthTokensResponse tokens) {
+            new DisplayEmailTask(tokens).execute();
+        }
+
+        @Override
+        public void onException(Exception ex) {
+            //mTextView.setText("There was an error fetching access tokens using the auth code: " + ex.getMessage());
+            Toast.makeText(getApplication(), "There was an error fetching access tokens using the auth code: "
+                    + ex.getMessage(), Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+
+    @Override
+    protected void onNewIntent(final Intent intent) {
+        if (intent != null && intent.getAction() != null && intent.getAction().equals("android.intent.action.VIEW")) {
+            new CompleteAuthorizationTask(intent).execute();
+        }
     }
 }

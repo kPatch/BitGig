@@ -206,7 +206,7 @@ public class MainActivity extends BaseActivity
                     long val = (long) 0.133;
                     mGigPostRecAdapters[0].add(new GigPost("Taco Bell", "Irvin Steve", val, ""));
                     mGigPostRecAdapters[0].notifyItemInserted(0);
-                }
+            }
             });
 
 /*        Thread thread = new Thread(new Runnable() {
@@ -378,11 +378,31 @@ public class MainActivity extends BaseActivity
 
     private ArrayList<GigPost> createList(int size) {
         ArrayList<GigPost> ret = new ArrayList<>();
-        for(int i = 0; i < size; i++) {
+
+        GigPost gPost;
+
+        gPost = new GigPost("BRING ME A SODA!  @VTHacks!"
+                , "Pickachu ", (long) 0.002211, "Blacksburg, VA ");
+
+        ret.add(gPost);
+
+        gPost = new GigPost("Take a Photo of TACO for me"
+                , "irvsteve ", (long) 0.004421, "Blacksburg, VA ");
+
+        ret.add(gPost);
+        gPost = new GigPost("I need a ride to school"
+                , "a-nish ", (long) 0.01327, "Blacksburg, VA ");
+
+        ret.add(gPost);
+        gPost = new GigPost("I Need Math 1205 Notes"
+                , "joshBosh ", (long)0.01, "Blacksburg, VA ");
+
+        ret.add(gPost);
+/*        for(int i = 0; i < size; i++) {
             GigPost gPost = new GigPost("This is a dummy content for a dummy post on ChitChat. This is a dummy content for a dummy post on ChitChat... "
                     + i, "Username " + i, 1093289L, "Miami, FL " + i);
             ret.add(gPost);
-        }
+        }*/
         return ret;
     }
 
@@ -479,7 +499,7 @@ public class MainActivity extends BaseActivity
                     ret = "Marketplace";
                     break;
                 case 1:
-                    ret = "Cart";
+                    ret = "World";
                     break;
                 default:
                     ret = "DEFAULT";

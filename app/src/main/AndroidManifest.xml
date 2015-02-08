@@ -56,6 +56,13 @@ The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="com.bitgig.bitgig" android:pathPrefix="coinbase-oauth" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".MainActivity"

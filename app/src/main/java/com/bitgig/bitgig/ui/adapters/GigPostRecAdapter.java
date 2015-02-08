@@ -32,6 +32,7 @@ public class GigPostRecAdapter extends RecyclerView.Adapter<GigPostRecAdapter.Gi
 
     public void add(GigPost gig){
         gigList.add(0, gig);
+        notifyItemRangeChanged(0, gigList.size());
 /*
         notifyItemInserted(0);
 */
