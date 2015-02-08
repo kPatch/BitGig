@@ -99,6 +99,15 @@ public class CreateGigPost extends ActionBarActivity implements AdapterView.OnIt
 
         requestModel = new RequestModel(this.getApplicationContext());
 
+        gigPostTitle = (EditText)findViewById(R.id.gig_post_title);
+        gigPostDesciption = (EditText)findViewById(R.id.gig_post_description);
+        gigPostPrice = (EditText)findViewById(R.id.gig_post_price);
+
+        View.OnFocusChangeListener ofcListener = new MyFocusChangeListener();
+        gigPostTitle.setOnFocusChangeListener(ofcListener);
+        gigPostDesciption.setOnFocusChangeListener(ofcListener);
+        gigPostPrice.setOnFocusChangeListener(ofcListener);
+
         // to get location updates, initialize LocationResult
         this.locationResult = new LocationResult(){
             @Override
@@ -113,7 +122,7 @@ public class CreateGigPost extends ActionBarActivity implements AdapterView.OnIt
                     lat = location.getLatitude();
                     lon = location.getLongitude();
 
-                    Log.e(TAG, "lat: " + latitude + ", long: " + longitude);
+                    Toast.makeText(getApplication(), "lat: " + latitude + ", long: " + longitude, Toast.LENGTH_SHORT).show();
 
                     // here you can save the latitude and longitude values
                     // maybe in your text file or database
@@ -157,9 +166,7 @@ public class CreateGigPost extends ActionBarActivity implements AdapterView.OnIt
     public void onClick(View v) {
 
 
-        gigPostTitle = (EditText)findViewById(R.id.gig_post_title);
-        gigPostDesciption = (EditText)findViewById(R.id.gig_post_description);
-        gigPostPrice = (EditText)findViewById(R.id.gig_post_price);
+        Toast.makeText(getApplication(), "lat: " + lat + ", long: " + lon, Toast.LENGTH_SHORT).show();
 
         gigPostTitleStr = gigPostTitle.getText().toString();
         gigPostDescriptionStr = gigPostDesciption.getText().toString();
@@ -209,5 +216,30 @@ public class CreateGigPost extends ActionBarActivity implements AdapterView.OnIt
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class MyFocusChangeListener implements View.OnFocusChangeListener {
+
+        public void onFocusChange(View v, boolean hasFocus){
+
+            if(v.getId() == R.id.gig_post_description && !hasFocus) {
+
+                InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+            }
+            else if(v.getId() == R.id.gig_post_price && !hasFocus) {
+
+                InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+            }
+            if(v.getId() == R.id.gig_post_title && !hasFocus) {
+
+                InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+            }
+        }
     }
 }
