@@ -162,33 +162,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*    AnalyticsManager.initializeAnalyticsTracker(getApplicationContext());
-            RecentTasksStyler.styleRecentTasksEntry(this);
-
-            PrefUtils.init(this);
-            //TODO: 1.  Check if User has accepted terms and has signed up, we can save in PrefUtils
-            //TODO:     If user is already signed skip Log in page
-            if (!PrefUtils.isTosAccepted(this)) {
-                Intent intent = new Intent(this, Signup.class);
-                startActivity(intent);
-                finish();
-            }
-
-            mImageLoader = new ImageLoader(this);
-            mHandler = new Handler();*/
-
-        // Enable or disable each Activity depending on the form factor. This is necessary
-        // because this app uses many implicit intents where we don't name the exact Activity
-        // in the Intent, so there should only be one enabled Activity that handles each
-        // Intent in the app.
-        ///UIUtils.enableDisableActivitiesByFormFactor(this);
-/*
-            if (savedInstanceState == null) {
-                registerGCMClient();
-            }*/
-
-            /*SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-            sp.registerOnSharedPreferenceChangeListener(this);*/
 
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
@@ -574,201 +547,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
         }
     }
 
-    //TODO: FIX THIS TO SHOW THE ACCOUNT ON BIWALK
 
-    /**
-     * Sets up the account box. The account box is the area at the top of the nav drawer that
-     * shows which account the user is logged in as, and lets them switch accounts.
-     */
-        /*private void setupAccountBox() {
-            mAccountListContainer = (LinearLayout) findViewById(R.id.account_list);
-
-            if (mAccountListContainer == null) {
-                //This activity does not have an account box
-                return;
-            }
-
-            final View chosenAccountView = findViewById(R.id.chosen_account_view);
-            Account chosenAccount = AccountUtils.getActiveAccount(this);
-            if (chosenAccount == null) {
-                // No account logged in; hide account box
-                chosenAccountView.setVisibility(View.GONE);
-                mAccountListContainer.setVisibility(View.GONE);
-                return;
-            } else {
-                chosenAccountView.setVisibility(View.VISIBLE);
-                mAccountListContainer.setVisibility(View.INVISIBLE);
-            }
-
-            AccountManager am = AccountManager.get(this);
-            Account[] accountArray = am.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
-            List<Account> accounts = new ArrayList<Account>(Arrays.asList(accountArray));
-            accounts.remove(chosenAccount);
-
-            ImageView coverImageView = (ImageView) chosenAccountView.findViewById(R.id.profile_cover_image);
-            ImageView profileImageView = (ImageView) chosenAccountView.findViewById(R.id.profile_image);
-            TextView nameTextView = (TextView) chosenAccountView.findViewById(R.id.profile_name_text);
-            TextView email = (TextView) chosenAccountView.findViewById(R.id.profile_email_text);
-            mExpandAccountBoxIndicator = (ImageView) findViewById(R.id.expand_account_box_indicator);
-
-            String name = AccountUtils.getPlusName(this);
-            if (name == null) {
-                nameTextView.setVisibility(View.GONE);
-            } else {
-                nameTextView.setVisibility(View.VISIBLE);
-                nameTextView.setText(name);
-            }
-
-            String imageUrl = AccountUtils.getPlusImageUrl(this);
-            if (imageUrl != null) {
-                mImageLoader.loadImage(imageUrl, profileImageView);
-            }
-
-            String coverImageUrl = AccountUtils.getPlusCoverUrl(this);
-            if (coverImageUrl != null) {
-                mImageLoader.loadImage(coverImageUrl, coverImageView);
-            } else {
-                coverImageView.setImageResource(R.drawable.default_cover);
-            }
-
-            email.setText(chosenAccount.name);
-
-            if (accounts.isEmpty()) {
-                // There's only one account on the device, so no need for a switcher.
-                mExpandAccountBoxIndicator.setVisibility(View.GONE);
-                mAccountListContainer.setVisibility(View.GONE);
-                chosenAccountView.setEnabled(false);
-                return;
-            }
-
-            chosenAccountView.setEnabled(true);
-
-            mExpandAccountBoxIndicator.setVisibility(View.VISIBLE);
-            chosenAccountView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mAccountBoxExpanded = !mAccountBoxExpanded;
-                    setupAccountBoxToggle();
-                }
-            });
-            setupAccountBoxToggle();
-
-            populateAccountList(accounts);
-        }
-
-        private void populateAccountList(List<Account> accounts) {
-            mAccountListContainer.removeAllViews();
-
-            LayoutInflater layoutInflater = LayoutInflater.from(this);
-            for (Account account : accounts) {
-                View itemView = layoutInflater.inflate(R.layout.list_item_account,
-                        mAccountListContainer, false);
-                ((TextView) itemView.findViewById(R.id.profile_email_text))
-                        .setText(account.name);
-                final String accountName = account.name;
-                String imageUrl = AccountUtils.getPlusImageUrl(this, accountName);
-                if (!TextUtils.isEmpty(imageUrl)) {
-                    mImageLoader.loadImage(imageUrl,
-                            (ImageView) itemView.findViewById(R.id.profile_image));
-                }
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ConnectivityManager cm = (ConnectivityManager)
-                                getSystemService(CONNECTIVITY_SERVICE);
-                        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-                        if (activeNetwork == null || !activeNetwork.isConnected()) {
-                            // if there's no network, don't try to change the selected account
-                            Toast.makeText(BaseActivity.this, R.string.no_connection_cant_login,
-                                    Toast.LENGTH_SHORT).show();
-                            mDrawerLayout.closeDrawer(Gravity.START);
-                            return;
-                        } else {
-                            LOGD(TAG, "User requested switch to account: " + accountName);
-                            AccountUtils.setActiveAccount(BaseActivity.this, accountName);
-                            onAccountChangeRequested();
-                            startLoginProcess();
-                            mAccountBoxExpanded = false;
-                            setupAccountBoxToggle();
-                            mDrawerLayout.closeDrawer(Gravity.START);
-                            setupAccountBox();
-                        }
-                    }
-                });
-                mAccountListContainer.addView(itemView);
-            }
-        }
-
-        protected void onAccountChangeRequested() {
-            // override if you want to be notified when another account has been selected account has changed
-        }
-
-        private void setupAccountBoxToggle() {
-            int selfItem = getSelfNavDrawerItem();
-            if (mDrawerLayout == null || selfItem == NAVDRAWER_ITEM_INVALID) {
-                // this Activity does not have a nav drawer
-                return;
-            }
-            mExpandAccountBoxIndicator.setImageResource(mAccountBoxExpanded
-                    ? R.drawable.ic_drawer_accounts_collapse
-                    : R.drawable.ic_drawer_accounts_expand);
-            int hideTranslateY = -mAccountListContainer.getHeight() / 4; // last 25% of animation
-            if (mAccountBoxExpanded && mAccountListContainer.getTranslationY() == 0) {
-                // initial setup
-                mAccountListContainer.setAlpha(0);
-                mAccountListContainer.setTranslationY(hideTranslateY);
-            }
-
-            AnimatorSet set = new AnimatorSet();
-            set.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mDrawerItemsListContainer.setVisibility(mAccountBoxExpanded
-                            ? View.INVISIBLE : View.VISIBLE);
-                    mAccountListContainer.setVisibility(mAccountBoxExpanded
-                            ? View.VISIBLE : View.INVISIBLE);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    onAnimationEnd(animation);
-                }
-            });
-
-            if (mAccountBoxExpanded) {
-                mAccountListContainer.setVisibility(View.VISIBLE);
-                AnimatorSet subSet = new AnimatorSet();
-                subSet.playTogether(
-                        ObjectAnimator.ofFloat(mAccountListContainer, View.ALPHA, 1)
-                                .setDuration(ACCOUNT_BOX_EXPAND_ANIM_DURATION),
-                        ObjectAnimator.ofFloat(mAccountListContainer, View.TRANSLATION_Y, 0)
-                                .setDuration(ACCOUNT_BOX_EXPAND_ANIM_DURATION));
-                set.playSequentially(
-                        ObjectAnimator.ofFloat(mDrawerItemsListContainer, View.ALPHA, 0)
-                                .setDuration(ACCOUNT_BOX_EXPAND_ANIM_DURATION),
-                        subSet);
-                set.start();
-            } else {
-                mDrawerItemsListContainer.setVisibility(View.VISIBLE);
-                AnimatorSet subSet = new AnimatorSet();
-                subSet.playTogether(
-                        ObjectAnimator.ofFloat(mAccountListContainer, View.ALPHA, 0)
-                                .setDuration(ACCOUNT_BOX_EXPAND_ANIM_DURATION),
-                        ObjectAnimator.ofFloat(mAccountListContainer, View.TRANSLATION_Y,
-                                hideTranslateY)
-                                .setDuration(ACCOUNT_BOX_EXPAND_ANIM_DURATION));
-                set.playSequentially(
-                        subSet,
-                        ObjectAnimator.ofFloat(mDrawerItemsListContainer, View.ALPHA, 1)
-                                .setDuration(ACCOUNT_BOX_EXPAND_ANIM_DURATION));
-                set.start();
-            }
-
-            set.start();
-        }*/
-
-
-    //TODO: POPULATE TO Launch SPECIFIC Activities
     private void goToNavDrawerItem(int item) {
         Intent intent;
         switch (item) {
@@ -818,22 +597,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
         }
     }
 
-    //TODO: FIX TO MAKE IT A WAY TO SIGN IN
-    private void signInOrCreateAnAccount() {
-        //Get list of accounts on device.
-        AccountManager am = AccountManager.get(BaseActivity.this);
-        Account[] accountArray = am.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
-        if (accountArray.length == 0) {
-            //Send the user to the "Add Account" page.
-                /*Intent intent = new Intent(Settings.ACTION_ADD_ACCOUNT);
-                intent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, new String[] {"com.google"});
-                startActivity(intent);*/
-        } else {
-            //Try to log the user in with the first account on the device.
-                /*startLoginProcess();
-                mDrawerLayout.closeDrawer(Gravity.START);*/
-        }
-    }
+
 
 
     private void onNavDrawerItemClicked(final int itemId) {
@@ -899,19 +663,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
     protected void onDestroy() {
         super.onDestroy();
 
-    /*        if (mGCMRegisterTask != null) {
-                LOGD(TAG, "Cancelling GCM registration task.");
-                mGCMRegisterTask.cancel(true);
-            }
-
-            try {
-                GCMRegistrar.onDestroy(this);
-            } catch (Exception e) {
-                LOGW(TAG, "C2DM unregistration error", e);
-            }
-
-            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-            sp.unregisterOnSharedPreferenceChangeListener(this);*/
     }
 
 
@@ -935,26 +686,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
     }
 
 
-    protected void enableActionBarAutoHide(final ListView listView) {
-        initActionBarAutoHide();
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            final static int ITEMS_THRESHOLD = 3;
-            int lastFvi = 0;
 
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    /*onMainContentScrolled(firstVisibleItem <= ITEMS_THRESHOLD ? 0 : Integer.MAX_VALUE,
-                            lastFvi - firstVisibleItem > 0 ? Integer.MIN_VALUE :
-                                    lastFvi == firstVisibleItem ? 0 : Integer.MAX_VALUE
-                    );
-                    lastFvi = firstVisibleItem;*/
-            }
-        });
-    }
 
     private View makeNavDrawerItem(final int itemId, ViewGroup container) {
         boolean selected = getSelfNavDrawerItem() == itemId;
