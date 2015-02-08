@@ -71,12 +71,6 @@ public class MainActivity extends BaseActivity
     SlidingTabLayout mSlidingTabLayout = null;
     ScrollView mScrollViewWide;
 
-    private Context context;
-    com.bitgig.bitgig.ui.widget.BezelImageView facebookImage;
-/*    ProfilePictureView profile_image;*/
-/*
-    public SetProfilePicture set;
-*/
     FloatingActionButton fab;
 
     @Override
@@ -152,7 +146,7 @@ public class MainActivity extends BaseActivity
         }
         overridePendingTransition(0, 0);
 
-        context = this;
+
 /*
         profile_image = (ProfilePictureView) findViewById(R.id.profile_image);
 */
@@ -230,62 +224,8 @@ public class MainActivity extends BaseActivity
 
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
 
-/*        getMenuInflater().inflate(R.menu.browse_sessions, menu);
-        // remove actions when in time interval mode:
-        if (mMode != MODE_EXPLORE) {
-            menu.removeItem(R.id.menu_search);
-            menu.removeItem(R.id.menu_refresh);
-            menu.removeItem(R.id.menu_wifi);
-            menu.removeItem(R.id.menu_debug);
-            menu.removeItem(R.id.menu_about);
-        } else {
-            ///////configureStandardMenuItems(menu);
-        }*/
-        return true;
-    }
-    /*
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
-    }
-    */
-    /*
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.profile);
-                break;
-            case 2:
-                mTitle = getString(R.string.payments);
-                break;
-            case 3:
-                mTitle = getString(R.string.promotions);
-                break;
-            case 4:
-                mTitle = getString(R.string.share);
-                break;
-            case 5:
-                mTitle = getString(R.string.support);
-                break;
-            case 6:
-                mTitle = getString(R.string.about);
-                break;
-        }
-    }
-*/
 
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
