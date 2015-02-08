@@ -82,8 +82,6 @@ public class CreateGigPost extends ActionBarActivity implements AdapterView.OnIt
     private EditText gigPostTitle, gigPostDesciption, gigPostPrice;
     String gigPostTitleStr, gigPostDescriptionStr, gigPostPriceStr;
 
-    private GoogleApiClient mGoogleApiClient;
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -99,7 +97,7 @@ public class CreateGigPost extends ActionBarActivity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_gig_post_2);
 
-
+        requestModel = new RequestModel(this.getApplicationContext());
 
         // to get location updates, initialize LocationResult
         this.locationResult = new LocationResult(){
@@ -131,22 +129,13 @@ public class CreateGigPost extends ActionBarActivity implements AdapterView.OnIt
         this.locationHelper = new LocationHelper();
 
         ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        findViewById(R.id.dollar_amount).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.gig_post_price).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TextView textView = (TextView)v;
                 textView.setText("");
             }
         });
-
-        gigPostTitle = (EditText)findViewById(R.id.gig_post_title);
-        gigPostDesciption = (EditText)findViewById(R.id.gig_post_description);
-        gigPostPrice = (EditText)findViewById(R.id.gig_post_price);
-
-        gigPostTitleStr = gigPostTitle.getText().toString();
-        gigPostDescriptionStr = gigPostDesciption.getText().toString();
-        gigPostPriceStr = gigPostPrice.getText().toString();
-
 
         Spinner spinner = (Spinner)    findViewById(R.id.gig_types);
         ArrayAdapter<CharSequence> gigTypeAdapter = ArrayAdapter.createFromResource(this,
@@ -165,21 +154,16 @@ public class CreateGigPost extends ActionBarActivity implements AdapterView.OnIt
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        // Connect the client.
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    protected void onStop() {
-        // Disconnecting the client invalidates it.
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
-
-    @Override
     public void onClick(View v) {
+
+
+        gigPostTitle = (EditText)findViewById(R.id.gig_post_title);
+        gigPostDesciption = (EditText)findViewById(R.id.gig_post_description);
+        gigPostPrice = (EditText)findViewById(R.id.gig_post_price);
+
+        gigPostTitleStr = gigPostTitle.getText().toString();
+        gigPostDescriptionStr = gigPostDesciption.getText().toString();
+        gigPostPriceStr = gigPostPrice.getText().toString();
 
         requestModel.sendGigRequest(
                 gigPostTitleStr,
