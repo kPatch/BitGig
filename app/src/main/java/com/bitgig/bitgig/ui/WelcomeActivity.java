@@ -43,6 +43,14 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
     private Button fbLoginButton;
     private Dialog progressDialog;
 
+    private static final String CLIENT_ID = "000791bd9ab9438e6b71229ffcee253158575d8e9562e1b0c428a67b475770f7";
+    private static final String CLIENT_SECRET = "cabab894edf53bd2a06eec91c8d545f42e0df768bec073a0c7ee124388ab32b8";
+    static final String REDIRECT_URI = "com.bitgig.bitgig://coinbase-oauth"; // Must be the same as entered into 'Create Application' above.
+// Launch the web browser or Coinbase app to authenticate the user.
+/*
+    OAuth.beginAuthorization(this, CLIENT_ID, "user", REDIRECT_URI, null);
+*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

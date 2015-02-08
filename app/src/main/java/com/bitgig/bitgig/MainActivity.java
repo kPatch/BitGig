@@ -22,7 +22,6 @@ import com.bitgig.bitgig.common.BaseActivity;
 import com.bitgig.bitgig.model.GigPost;
 import com.bitgig.bitgig.ui.CreateGigPost;
 import com.bitgig.bitgig.ui.GigPostFragment;
-import com.bitgig.bitgig.ui.adapters.GigPostListAdapter;
 import com.bitgig.bitgig.ui.adapters.GigPostRecAdapter;
 import com.bitgig.bitgig.ui.widget.BezelImageView;
 import com.bitgig.bitgig.ui.widget.SlidingTabLayout;
@@ -62,7 +61,7 @@ public class MainActivity extends BaseActivity
     // The adapters that serves as the source of data for the UI, indicating the available
     // items. We have one adapter per feed. When we push new data into these
     // adapters, the corresponding UIs update automatically.
-    private GigPostListAdapter[] mGigPostListAdapters = new GigPostListAdapter[2];
+//    private GigPostListAdapter[] mGigPostListAdapters = new GigPostListAdapter[2];
 
     private GigPostRecAdapter[] mGigPostRecAdapters = new GigPostRecAdapter[2];
 
