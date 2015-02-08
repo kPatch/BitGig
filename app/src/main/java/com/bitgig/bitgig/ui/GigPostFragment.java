@@ -64,7 +64,9 @@ public class GigPostFragment extends Fragment {
         final FragmentActivity c = (FragmentActivity) getActivity();
         LinearLayoutManager layoutManager = new LinearLayoutManager(c);
 
+/*
         mAdapter = new GigPostRecAdapter(createList(20));
+*/
 
         mRecycler = (RecyclerView) mRoot.findViewById(R.id.recyclerViewList);
         mRecycler.setLayoutManager(layoutManager);
@@ -72,6 +74,13 @@ public class GigPostFragment extends Fragment {
             mRoot.setContentDescription(mContentDescription);
         }
 
+
+        ///BETA
+        if(getActivity() instanceof Listener) {
+            ((Listener) getActivity()).onFragmentViewCreated(mRecycler);
+        }
+        /////BETA
+/*
         mRecycler.setAdapter(mAdapter); //TODO BAD!!! WE NEED TO SET THE ADAPTER FROM the MainActivity via a CallBack
 
         mRecycler.addOnItemTouchListener(new RecyclerItemClickListener(context, new RecyclerItemClickListener.OnItemClickListener() {
@@ -81,7 +90,7 @@ public class GigPostFragment extends Fragment {
                 dialogFragment.show(fm, "GigPostDialogFragment");
             }
         })
-        );
+        );*/
 
         return mRoot;
     }
@@ -97,7 +106,9 @@ public class GigPostFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getActivity() instanceof Listener) {
-            //((Listener) getActivity()).onFragmentViewCreated(this);
+/*
+            ((Listener) getActivity()).onFragmentViewCreated(this);
+*/
         }
     }
 

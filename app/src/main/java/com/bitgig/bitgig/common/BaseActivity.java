@@ -53,7 +53,8 @@ import java.util.ArrayList;
 /**
  * Created by irvin on 2/7/2015.
  */
-public abstract class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends ActionBarActivity implements
+        SuperSwipeRefreshLayout.CanChildScrollUpCallback, SwipeRefreshLayout.OnRefreshListener{
 
     // Navigation drawer:
     private DrawerLayout mDrawerLayout;
@@ -259,28 +260,41 @@ public abstract class BaseActivity extends ActionBarActivity {
                     R.color.refresh_progress_1,
                     R.color.refresh_progress_2,
                     R.color.refresh_progress_3);
-            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    //TODO: Request MORE DATA!
-                    //requestDataRefresh();
-                    Toast.makeText(getApplication(), "Request MORE DATA!", Toast.LENGTH_SHORT);
-                }
-            });
+            //////////////////////////////////////////////////////////////////////////////////
+            // WIll create a StandALone Listener that can be overriden in the Parent Class
+            //////////////////////////////////////////////////////////////////////////////////
+//            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//                @Override
+//                public void onRefresh() {
+//                    //TODO: Request MORE DATA!
+//                    //requestDataRefresh();
+//                    Toast.makeText(getApplication(), "Request MORE DATA!", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+
+            mSwipeRefreshLayout.setOnRefreshListener(this);
 
             if (mSwipeRefreshLayout instanceof SuperSwipeRefreshLayout) {
                 SuperSwipeRefreshLayout sswrl = (SuperSwipeRefreshLayout) mSwipeRefreshLayout;
                 // TODO: Make THI
-                sswrl.setCanChildScrollUpCallback(new SuperSwipeRefreshLayout.CanChildScrollUpCallback() {
-                    @Override
-                    public boolean canSwipeRefreshChildScrollUp() {
-                        return true;
-                    }
-                });
+                sswrl.setCanChildScrollUpCallback(this);
             }
         }
     }
 
+    @Override
+    public void onRefresh() {
+        //TODO: Request MORE DATA!
+        //requestDataRefresh();
+        //Toast.makeText(getApplication(), "Request MORE DATA!", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+    @Override
+    public boolean canSwipeRefreshChildScrollUp() {
+        return false;
+    }
     protected void setProgressBarTopWhenActionBarShown(int progressBarTopWhenActionBarShown) {
         mProgressBarTopWhenActionBarShown = progressBarTopWhenActionBarShown;
         updateSwipeRefreshProgressBarTop();
@@ -1027,6 +1041,24 @@ public abstract class BaseActivity extends ActionBarActivity {
             }
         }
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
 
 
     protected void onRefreshingStateChanged(boolean refreshing) {

@@ -1,15 +1,18 @@
 package com.bitgig.bitgig.ui.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bitgig.bitgig.R;
 import com.bitgig.bitgig.model.GigPost;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -27,9 +30,30 @@ public class GigPostRecAdapter extends RecyclerView.Adapter<GigPostRecAdapter.Gi
         return gigList.size();
     }
 
+    public void add(GigPost gig){
+        gigList.add(0, gig);
+/*
+        notifyItemInserted(0);
+*/
+/*        gigList.add(gig);
+       gigList.add(2, gig);
+        notifyItemInserted(2);
+        Log.d("=============", "==========");*/
+    }
+
+    public void updateItems(ArrayList<GigPost> items) {
+        //mItems.clear();
+        if (items != null) {
+            for (GigPost item : items) {
+                gigList.add((GigPost) item.clone());
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(GigPostViewHolder contactViewHolder, int i) {
-        int ran = random.nextInt(4);
+        /*int ran = random.nextInt(4);
         String status = "";
         String price = "";
         String name = "";
@@ -55,11 +79,17 @@ public class GigPostRecAdapter extends RecyclerView.Adapter<GigPostRecAdapter.Gi
                 name = "Irvss";
                 break;
         }
-        GigPost gig = gigList.get(i);
-        contactViewHolder.title.setText(status);
+        contactViewHolder.title.setText(gig.status);
         contactViewHolder.username.setText(name);
         //contactViewHolder.btc.setText(Btc.satoshiToBtc(gig.getBtc()));
         contactViewHolder.btc.setText(price);
+        contactViewHolder.loc.setText(gig.getLoc());
+        */
+        GigPost gig = gigList.get(i);
+        contactViewHolder.title.setText(gig.getTitle());
+        contactViewHolder.username.setText(gig.getUserName());
+        //contactViewHolder.btc.setText(Btc.satoshiToBtc(gig.getBtc()));
+        contactViewHolder.btc.setText(String.valueOf(gig.getBtc()));
         contactViewHolder.loc.setText(gig.getLoc());
     }
 

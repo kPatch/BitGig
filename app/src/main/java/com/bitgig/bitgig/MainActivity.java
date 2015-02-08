@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
@@ -21,11 +24,13 @@ import android.widget.Toast;
 import com.bitgig.bitgig.common.BaseActivity;
 import com.bitgig.bitgig.model.GigPost;
 import com.bitgig.bitgig.ui.CreateGigPost;
+import com.bitgig.bitgig.ui.GigPostDialogFragment;
 import com.bitgig.bitgig.ui.GigPostFragment;
 import com.bitgig.bitgig.ui.adapters.GigPostRecAdapter;
 import com.bitgig.bitgig.ui.maps.MyMapFragment;
 import com.bitgig.bitgig.ui.widget.BezelImageView;
 import com.bitgig.bitgig.ui.widget.SlidingTabLayout;
+import com.bitgig.bitgig.util.RecyclerItemClickListener;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -64,7 +69,7 @@ public class MainActivity extends BaseActivity
     // adapters, the corresponding UIs update automatically.
 //    private GigPostListAdapter[] mGigPostListAdapters = new GigPostListAdapter[2];
 
-    private GigPostRecAdapter[] mGigPostRecAdapters = new GigPostRecAdapter[2];
+    private GigPostRecAdapter[] mGigPostRecAdapters = new GigPostRecAdapter[1];
 
     // View pager and adapter (for narrow mode)
     ViewPager mViewPager = null;
@@ -92,7 +97,7 @@ public class MainActivity extends BaseActivity
         mWideMode = findViewById(R.id.my_schedule_first_day) != null;
 
         //TODO: Fix the number of adpater being used
-        for(int i = 0; i< 2; i++){
+        for(int i = 0; i< 1; i++){
             //mGigPostListAdapters[i] = new GigPostListAdapter(this, createList(10)); //TODO USED THIS FOR REGULAR LISTS
             mGigPostRecAdapters[i] = new GigPostRecAdapter(createList(10));
         }
@@ -145,11 +150,11 @@ public class MainActivity extends BaseActivity
                 @Override
                 public void onPageScrollStateChanged(int state) {
                     //TODO: Set This As False to STOP SwipeRefresh
-                    //enableDisableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
+                    enableDisableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
                     //Toast.makeText(getApplication(), "onPageScrollStateChanged", Toast.LENGTH_SHORT).show();
 
                     //TODO
-                    //enableDisableSwipeRefresh(false);
+                    enableDisableSwipeRefresh(false);
                 }
             });
         }
@@ -180,13 +185,58 @@ public class MainActivity extends BaseActivity
         });
     }
 
+    @Override
+    public void onRefresh() {
+        //TODO: Request MORE DATA!
+        //requestDataRefresh();
+        //Toast.makeText(this, "MORE DATA!", Toast.LENGTH_SHORT).show();
 /*
+        long val = (long) 0.133;
+        mGigPostRecAdapters[0].add(new GigPost("Taco Bell", "Irvin Steve", val, ""));
+        mGigPostRecAdapters[0].notifyItemInserted(0);*/
+
+        Toast.makeText(this, "Refresh", Toast.LENGTH_LONG).show();
+
+        final Handler mHandler = new Handler();
+
+
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    long val = (long) 0.133;
+                    mGigPostRecAdapters[0].add(new GigPost("Taco Bell", "Irvin Steve", val, ""));
+                    mGigPostRecAdapters[0].notifyItemInserted(0);
+                }
+            });
+
+/*        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        long val = (long) 0.133;
+                        mGigPostRecAdapters[0].add(new GigPost("Taco Bell", "Irvin Steve", val, ""));
+                    }
+                });
+            }
+        });
+        thread.start();*/
+
+     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     @Override
     public boolean canSwipeRefreshChildScrollUp() {
         if (mWideMode) {
             return ViewCompat.canScrollVertically(mScrollViewWide, -1);
         }
 
+        /*
         for (GigPostFragment fragment : myGigPostListFragments) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
                 if (!fragment.getUserVisibleHint()) {
@@ -194,11 +244,10 @@ public class MainActivity extends BaseActivity
                 }
             }
             //TODO: Fix this to work with RecyclerView
-            //return ViewCompat.canScrollVertically(fragment.getListView(), -1);
-        }
-
+            return ViewCompat.canScrollVertically(fragment.getListView(), -1);
+        }*/
         return false;
-    }*/
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -337,7 +386,16 @@ public class MainActivity extends BaseActivity
         return ret;
     }
 
+    //TODO IMPLEMENT THIS METHOD TO PASS  GIG ITEMS
+    protected void updateData() {
+/*        for (int i = 0; i < Config.CONFERENCE_DAYS.length; i++) {
+            mDataHelper.getScheduleDataAsync(mScheduleAdapters[i],
+                    Config.CONFERENCE_DAYS[i][0], Config.CONFERENCE_DAYS[i][1]);
+        }*/
+        //mGigPostRecAdapters[0].add();
+    }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     //public void onFragmentViewCreated(ListFragment fragment) {
     public void onFragmentViewCreated(RecyclerView mRecycler) {
@@ -351,8 +409,20 @@ public class MainActivity extends BaseActivity
         /*fragment.setListAdapter(mGigPostListAdapters[0]);
         fragment.getListView().setRecyclerListener(mGigPostListAdapters[0]);*/
 
+        mRecycler.setItemAnimator(new DefaultItemAnimator());
+        Log.d("MainActivity", "-Before mGigPostRecAdapters");
         mRecycler.setAdapter(mGigPostRecAdapters[0]);  //TODO: FIx THIS LOOK INTO GigPostFragment,
         //TODO We should be attaching the adapter her but it doesn't take place, instead I had to hard code em inside the GigPostRecAdapter
+        Log.d("MainActivity", "-After mGigPostRecAdapters");
+
+        mRecycler.addOnItemTouchListener(new RecyclerItemClickListener(context, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        FragmentManager fm = getFragmentManager();
+                        GigPostDialogFragment dialogFragment = new GigPostDialogFragment();
+                        dialogFragment.show(fm, "GigPostDialogFragment");
+                    }
+                })
+        );
 
     }
 
