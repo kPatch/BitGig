@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity
     // adapters, the corresponding UIs update automatically.
 //    private GigPostListAdapter[] mGigPostListAdapters = new GigPostListAdapter[2];
 
-    private GigPostRecAdapter[] mGigPostRecAdapters = new GigPostRecAdapter[2];
+    private GigPostRecAdapter mGigPostRecAdapters;
 
     // View pager and adapter (for narrow mode)
     ViewPager mViewPager = null;
@@ -84,12 +84,8 @@ public class MainActivity extends BaseActivity
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mScrollViewWide = (ScrollView) findViewById(R.id.main_content_wide);
         mWideMode = findViewById(R.id.my_schedule_first_day) != null;
+        mGigPostRecAdapters = new GigPostRecAdapter(createList(10));
 
-        //TODO: Fix the number of adpater being used
-        for(int i = 0; i< 2; i++){
-            //mGigPostListAdapters[i] = new GigPostListAdapter(this, createList(10)); //TODO USED THIS FOR REGULAR LISTS
-            mGigPostRecAdapters[i] = new GigPostRecAdapter(createList(10));
-        }
 
         mViewPagerAdapter = new OurViewPagerAdapter(getFragmentManager());
         mViewPager.setAdapter(mViewPagerAdapter);
@@ -291,9 +287,7 @@ public class MainActivity extends BaseActivity
         /*fragment.setListAdapter(mGigPostListAdapters[0]);
         fragment.getListView().setRecyclerListener(mGigPostListAdapters[0]);*/
 
-        mRecycler.setAdapter(mGigPostRecAdapters[0]);  //TODO: FIx THIS LOOK INTO GigPostFragment,
-        //TODO We should be attaching the adapter her but it doesn't take place, instead I had to hard code em inside the GigPostRecAdapter
-
+        mRecycler.setAdapter(mGigPostRecAdapters);
     }
 
     @Override
