@@ -23,6 +23,7 @@ import com.bitgig.bitgig.model.GigPost;
 import com.bitgig.bitgig.ui.CreateGigPost;
 import com.bitgig.bitgig.ui.GigPostFragment;
 import com.bitgig.bitgig.ui.adapters.GigPostRecAdapter;
+import com.bitgig.bitgig.ui.maps.MyMapFragment;
 import com.bitgig.bitgig.ui.widget.BezelImageView;
 import com.bitgig.bitgig.ui.widget.SlidingTabLayout;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -379,8 +380,15 @@ public class MainActivity extends BaseActivity
             args.putInt(ARG_CONFERENCE_DAY_INDEX, position);
             frag.setArguments(args);
             return frag;*/
+            Fragment frag = null;
+            switch(position){
+                case 0:
+                    frag = new GigPostFragment();
+                    break;
+                case 1:
+                    frag = new MyMapFragment();
+            }
 
-            GigPostFragment frag = new GigPostFragment();
             return frag;
         }
 
